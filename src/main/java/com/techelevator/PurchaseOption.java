@@ -129,4 +129,23 @@ public class PurchaseOption extends Option {
     public void setPurchaseAction(String purchaseAction) {
         this.purchaseAction = purchaseAction;
     }
+
+    public Change completeTransaction() {
+        int quarters = 0;
+        int dimes = 0;
+        int nickels = 0;
+        quarters = (int) Math.floor(currentBalance / 0.25);
+        currentBalance -= quarters * 0.25;
+
+        dimes = (int) Math.floor(currentBalance / 0.10);
+        currentBalance -= dimes * 0.10;
+
+        nickels = (int) Math.floor(currentBalance / 0.05);
+        currentBalance -= nickels * 0.05;
+
+        Change customerChange = new Change(quarters, dimes, nickels);
+
+        return customerChange;
+    }
+
 }
