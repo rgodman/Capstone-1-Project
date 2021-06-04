@@ -5,6 +5,7 @@ public class VendingMachineItem {
     private String name;
     private double price;
     private int number;
+    private String sound;
 
 
 
@@ -12,6 +13,7 @@ public class VendingMachineItem {
         this.name = name;
         this.price = price;
         this.number = number;
+        this.sound = sound;
 
     }
 
@@ -37,5 +39,13 @@ public class VendingMachineItem {
 
     public void setNumber(int number) {
         this.number = number;
+    }
+
+    public String getSound() {
+        return sound;
+    }
+
+    public void setSound(String sound) {
+        this.sound = sound;
     }
 }

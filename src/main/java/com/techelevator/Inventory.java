@@ -15,6 +15,8 @@ public class Inventory {
         return this.inventory;
     }
 
+    //try createInventory here
+
         public Map restockInventory () {
             //resets each item in numberOfItem map to 5.
             this.getInventory();
@@ -25,10 +27,15 @@ public class Inventory {
             return inventory;
         }
 
-        public Map updateInventory () {
+        public Map updateInventory (VendingMachineItem itemToPurchase) {
             this.getInventory();
-            //get the item being purchase from the purchase object
-            //subtract number of that by 1
+            //for the item to purchase, need to find the key being used
+            for (String key : inventory.keySet()){
+              VendingMachineItem item = inventory.get(key);
+              if (itemToPurchase.getName().equals(item.getName())){
+                  item.setNumber(item.getNumber()-1);
+              }
+            }
             return inventory;
         }
 

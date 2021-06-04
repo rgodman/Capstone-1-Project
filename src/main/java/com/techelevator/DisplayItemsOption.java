@@ -1,5 +1,6 @@
 package com.techelevator;
 
+import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,14 +29,16 @@ public class DisplayItemsOption extends Option{
     }
 
     public void displayNumberOfItems(Map<String, VendingMachineItem> inventory){
-
+        NumberFormat dollarAmount = NumberFormat.getCurrencyInstance();
         for (String key: inventory.keySet()){
             int number = inventory.get(key).getNumber();
+            String name = inventory.get(key).getName();
+            Double price = inventory.get(key).getPrice();
             if (number == 0){
-                System.out.println(key + ": SOLD OUT");
+                System.out.println(key + name + ": SOLD OUT");
             }
             else{
-                System.out.println(key+ ": " + number);
+                System.out.println(key+ ": " + name + " "  + dollarAmount.format(price) + ", " + number);
             }
         }
 
