@@ -38,7 +38,6 @@ public class Application {
         }
 
 
-
         System.out.println("*******************************");
         System.out.println("Welcome to the Vendo-Matic 800!");
         System.out.println("*******************************");
@@ -48,27 +47,29 @@ public class Application {
         DisplayItemsOption choiceOne = new DisplayItemsOption("Display Items", 1);
         PurchaseOption choiceTwo = new PurchaseOption("Purchase Item", 2);
         ExitOption choiceThree = new ExitOption("Exit Machine", 3);
-        if (menu.getOption() != null) {
-            if (menu.getOption().equals("1")) {
+
+        while (menu.getOption() != null) {
+            while (menu.getOption().equals("1")) {
                 choiceOne.displayNumberOfItems(newInventory);
                 //display main menu options again
                 menu.displayMainMenu();
+                System.out.println(menu.getOption());
             }
             //if option 2, display secondary purchase menu
-            if (menu.getOption().equals("2")) {
+            while (menu.getOption().equals("2")) {
                 choiceTwo.displayPurchaseMenu();
                 choiceTwo.printBalance();
-                if (choiceTwo.getPurchaseAction() != null) {
-                    if (choiceTwo.getPurchaseAction().equals("1")) {
+                while (choiceTwo.getPurchaseAction() != null) {
+                    while (choiceTwo.getPurchaseAction().equals("1")) {
                         //need to check if this is a number and not just ONE or TWO
                         choiceTwo.askForMoney();
                         choiceTwo.feedMoney();
                         choiceTwo.printBalance();
-                        choiceOne.displayNumberOfItems(newInventory);
-                        menu.displayMainMenu();
-                        menu.getOption();
+                        choiceTwo.displayPurchaseMenu();
+                        System.out.println(menu.getOption());
                     }
-                    if (choiceTwo.getPurchaseAction().equals("2")) {
+                    while (choiceTwo.getPurchaseAction().equals("2")) {
+                        choiceOne.displayNumberOfItems(newInventory);
                         System.out.println("Please select an item to purchase");
                         System.out.println("Use the key provided");
                         Scanner userChoice = new Scanner(System.in);
@@ -78,12 +79,11 @@ public class Application {
                             System.out.println("Your selection does not exist.");
                             System.out.println("Returning to purchase menu");
                             choiceTwo.displayPurchaseMenu();
-
                         }
                         //if product is sold out, return to purchase menu
                         if (newInventory.get(response).getNumber() == 0) {
                             System.out.println("Your selection is sold out.");
-                            System.out.println("Returning to purchase menu");
+                            System.out.println("Returning to purchase menu.");
                             choiceTwo.displayPurchaseMenu();
 
                         }
@@ -93,17 +93,17 @@ public class Application {
                         choiceTwo.printBalance();
                         choiceTwo.displayPurchaseMenu();
 
-
                     }
-                    if (choiceTwo.getPurchaseAction().equals("3")){
+                    while (choiceTwo.getPurchaseAction().equals("3")){
                         choiceTwo.completeTransaction();
+                        choiceTwo.calculateChange();
                         choiceTwo.printBalance();
                         menu.displayMainMenu();
-                        menu.getOption();
+                        System.out.println(menu.getOption());
                     }
                 }
             }
-            if (menu.getOption().equals("3")){
+            while (menu.getOption().equals("3")){
                 choiceThree.sayGoodbye();
             }
 

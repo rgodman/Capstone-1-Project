@@ -25,7 +25,7 @@ public class VendingMachine {
         System.out.println("2: Purchase");
         System.out.println("3: Exit");
         Scanner userChoice = new Scanner(System.in);
-        option = userChoice.nextLine();
+        setOption(userChoice.nextLine());
         return option;
     }
 

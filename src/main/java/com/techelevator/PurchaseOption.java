@@ -1,8 +1,6 @@
 package com.techelevator;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -13,6 +11,7 @@ public class PurchaseOption extends Option {
     private double currentBalance = 0.00;
     private double amountFed = 0.00;
     private String purchaseAction = "";
+    private Change customerChange;
 
     File transactions = new File("Log.txt");
     NumberFormat dollarAmount = NumberFormat.getCurrencyInstance();
@@ -39,7 +38,7 @@ public class PurchaseOption extends Option {
         System.out.println("2: Select Product");
         System.out.println("3: Finish Transaction");
         Scanner purchaseChoice = new Scanner(System.in);
-        String purchaseAction = purchaseChoice.nextLine();
+        purchaseAction = purchaseChoice.nextLine();
         return purchaseAction;
 
     }
@@ -64,10 +63,14 @@ public class PurchaseOption extends Option {
     public double feedMoney() {
         //write to text file with amount fed
         currentBalance += amountFed;
-        try(PrintWriter writer = new PrintWriter(transactions)){
+        try{
+            BufferedWriter buffer = new BufferedWriter(new FileWriter(transactions, true));
             //today's date, current date, FEED MONEY: amountEntered currentBalance
-            writer.println(todaysDateTime.format(todayNow) + "  FEED MONEY: " + dollarAmount.format(amountFed) + " " + dollarAmount.format(currentBalance));
-        } catch (IOException e){
+            buffer.write(todaysDateTime.format(todayNow) + "  FEED MONEY: " + dollarAmount.format(amountFed) + " " + dollarAmount.format(currentBalance));
+            buffer.newLine();
+            buffer.flush();
+        }
+         catch (IOException e){
             System.out.println(e.getMessage());
         }
         return currentBalance;
@@ -77,14 +80,15 @@ public class PurchaseOption extends Option {
         if (itemToPurchase.getPrice() > currentBalance) {
             System.out.println("You do not have enough funds available for this purchase.");
             System.out.println("Enter more funds to proceed.");
-            return currentBalance;
-            //need to display purchase menu after this.
-            //
+            displayPurchaseMenu();
         }
         //write to text file with item purchased
-        try(PrintWriter writer = new PrintWriter(transactions)){
-            //today's date, current date, FEED MONEY: amountEntered currentBalance
-            writer.println(todaysDateTime.format(todayNow) + itemToPurchase.getName() + dollarAmount.format(currentBalance) + " " + dollarAmount.format(currentBalance-itemToPurchase.getPrice()));
+        try{
+            BufferedWriter buffer = new BufferedWriter(new FileWriter(transactions, true));
+            buffer.write(todaysDateTime.format(todayNow) + "  " + itemToPurchase.getName() + "  " + dollarAmount.format(currentBalance) + " " + dollarAmount.format(currentBalance-itemToPurchase.getPrice()));
+            buffer.newLine();
+            buffer.flush();
+
         } catch (IOException e){
             System.out.println(e.getMessage());
         }
@@ -97,28 +101,16 @@ public class PurchaseOption extends Option {
 
     public double completeTransaction(){
         //write to File with change returned
-        int quarters = 0;
-        int dimes = 0;
-        int nickels = 0;
-        try(PrintWriter writer = new PrintWriter(transactions)){
-            //today's date, current date, FEED MONEY: amountEntered currentBalance
-            writer.println(todaysDateTime.format(todayNow) + "GIVE CHANGE: " + dollarAmount.format(currentBalance) + " " + dollarAmount.format(0.0));
+        try {
+            BufferedWriter buffer = new BufferedWriter(new FileWriter(transactions, true));
+            buffer.write(todaysDateTime.format(todayNow) + "  GIVE CHANGE: " + dollarAmount.format(currentBalance) + " " + dollarAmount.format(0.0));
+            buffer.newLine();
+            buffer.flush();
+
         } catch (IOException e){
             System.out.println(e.getMessage());
         }
-        if (currentBalance >= 0.25) {
-            quarters = (int) Math.floor(currentBalance / 0.25);
-            currentBalance -= quarters * 0.25;
-        }
-        if (currentBalance >= 0.10){
-            dimes = (int) Math.floor(currentBalance / 0.10);
-            currentBalance -= dimes * 0.10;
-        }
-        if (currentBalance >= 0.05){
-            dimes = (int) Math.floor(currentBalance / 0.05);
-            currentBalance -= dimes * 0.05;
-        }
-        System.out.println("Here's your change: " + quarters + " quarters, " + dimes + " dimes, " + nickels +  " nickels.");
+
         return currentBalance;
     }
 
@@ -130,7 +122,7 @@ public class PurchaseOption extends Option {
         this.purchaseAction = purchaseAction;
     }
 
-    public Change completeTransaction() {
+    public Change calculateChange() {
         int quarters = 0;
         int dimes = 0;
         int nickels = 0;
@@ -144,7 +136,7 @@ public class PurchaseOption extends Option {
         currentBalance -= nickels * 0.05;
 
         Change customerChange = new Change(quarters, dimes, nickels);
-
+        System.out.println("Here's your change: " + customerChange.getQuarter() + " quarters, " + customerChange.getDime() + " dimes, " + customerChange.getNickel() + " nickels.");
         return customerChange;
     }
 

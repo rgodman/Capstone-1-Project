@@ -35,7 +35,7 @@ public class DisplayItemsOption extends Option{
             String name = inventory.get(key).getName();
             Double price = inventory.get(key).getPrice();
             if (number == 0){
-                System.out.println(key + name + ": SOLD OUT");
+                System.out.println(key + ": " + name + "  SOLD OUT");
             }
             else{
                 System.out.println(key+ ": " + name + " "  + dollarAmount.format(price) + ", " + number);
