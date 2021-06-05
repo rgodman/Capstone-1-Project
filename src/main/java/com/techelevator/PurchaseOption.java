@@ -10,7 +10,6 @@ import java.util.Scanner;
 public class PurchaseOption extends Option {
     private double currentBalance = 0.00;
     private double amountFed = 0.00;
-    private String purchaseAction = "";
     private Change customerChange;
 
     File transactions = new File("Log.txt");
@@ -32,16 +31,6 @@ public class PurchaseOption extends Option {
         this.amountFed = amountFed;
     }
 
-    public String displayPurchaseMenu() {
-        System.out.println("Please select from one of the following options:");
-        System.out.println("1: Feed Money");
-        System.out.println("2: Select Product");
-        System.out.println("3: Finish Transaction");
-        Scanner purchaseChoice = new Scanner(System.in);
-        purchaseAction = purchaseChoice.nextLine();
-        return purchaseAction;
-
-    }
 
     public double getBalance() {
         return currentBalance;
@@ -77,12 +66,7 @@ public class PurchaseOption extends Option {
     }
 
     public double selectProduct(VendingMachineItem itemToPurchase) {
-        if (itemToPurchase.getPrice() > currentBalance) {
-            System.out.println("You do not have enough funds available for this purchase.");
-            System.out.println("Enter more funds to proceed.");
-            displayPurchaseMenu();
-        }
-        //write to text file with item purchased
+        //write to text file with item being purchased
         try{
             BufferedWriter buffer = new BufferedWriter(new FileWriter(transactions, true));
             buffer.write(todaysDateTime.format(todayNow) + "  " + itemToPurchase.getName() + "  " + dollarAmount.format(currentBalance) + " " + dollarAmount.format(currentBalance-itemToPurchase.getPrice()));
@@ -112,14 +96,6 @@ public class PurchaseOption extends Option {
         }
 
         return currentBalance;
-    }
-
-    public String getPurchaseAction() {
-        return purchaseAction;
-    }
-
-    public void setPurchaseAction(String purchaseAction) {
-        this.purchaseAction = purchaseAction;
     }
 
     public Change calculateChange() {
