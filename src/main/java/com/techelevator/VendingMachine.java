@@ -7,9 +7,9 @@ import java.util.Scanner;
 
 public class VendingMachine {
     //user response from the Scanner for Main Menu
-    private String option = "";
+    private int option = 0;
     //user response from the Scanner for Purchase Menu
-    private String purchaseAction = "";
+    private int purchaseAction = 0;
     //user response from the Scanner for Item Selection
     private String itemSelection = "";
     //options to be operated on
@@ -17,35 +17,58 @@ public class VendingMachine {
     private PurchaseOption choiceTwo = new PurchaseOption("Purchase Item", 2);
     private ExitOption choiceThree = new ExitOption("Exit Machine", 3);
 
-    public String getOption() {
+    public int getOption() {
         return option;
     }
 
-    public void setOption(String option) {
+    public void setOption(int option) {
         this.option = option;
     }
 
-    public String displayMainMenu(){
+    public int displayMainMenu(){
         System.out.println("Please select from one of the following options:");
         System.out.println("1: Display Vending Machine Items");
         System.out.println("2: Purchase");
         System.out.println("3: Exit");
         System.out.println("****************************");
-        Scanner userChoice = new Scanner(System.in);
-        option = userChoice.nextLine();
-        return option;
+        try {
+            Scanner userChoice = new Scanner(System.in);
+            option = Integer.parseInt(userChoice.nextLine());
+            if (option != 1 && option != 2 && option != 3){
+                System.out.println("You did not enter a valid menu option. Please try again.");
+                displayMainMenu();
+                return option;
+            }
+            return option;
+
+        } catch (NumberFormatException e){
+            System.out.println("You did not enter a number. Please try again.");
+            displayMainMenu();
+            return option;
+        }
     }
 
-    public String displayPurchaseMenu() {
+    public int displayPurchaseMenu() {
         System.out.println("Please select from one of the following options:");
         System.out.println("1: Feed Money");
         System.out.println("2: Select Product");
         System.out.println("3: Finish Transaction");
         System.out.println("****************************");
-        Scanner purchaseChoice = new Scanner(System.in);
-        purchaseAction = purchaseChoice.nextLine();
-        //if (Integer.parseInt(purchaseAction) )
-        return purchaseAction;
+        try {
+            Scanner purchaseChoice = new Scanner(System.in);
+            purchaseAction = Integer.parseInt(purchaseChoice.nextLine());
+            if (purchaseAction != 1 && purchaseAction != 2 && purchaseAction != 3) {
+                System.out.println("You did not enter a valid purchase option. Please try again.");
+                displayPurchaseMenu();
+                return purchaseAction;
+            }
+            return purchaseAction;
+        } catch (NumberFormatException e){
+            System.out.println("You did not enter a number. Please try again.");
+            purchaseAction = 0;
+            displayPurchaseMenu();
+            return purchaseAction;
+        }
     }
 
     public String askForItemSelection(){
@@ -57,18 +80,12 @@ public class VendingMachine {
         return itemSelection;
     }
 
-    public boolean checkForValidOptions(){
-        while (!getOption().equals("1") || !getOption().equals("2") || !getOption().equals("3")){
-            return false;
-        }
-        return true;
-    }
 
-    public String getPurchaseAction() {
+    public int getPurchaseAction() {
         return purchaseAction;
     }
 
-    public void setPurchaseAction(String purchaseAction) {
+    public void setPurchaseAction(int purchaseAction) {
         this.purchaseAction = purchaseAction;
     }
 
