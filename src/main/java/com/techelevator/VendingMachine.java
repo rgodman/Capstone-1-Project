@@ -44,6 +44,7 @@ public class VendingMachine {
         System.out.println("****************************");
         Scanner purchaseChoice = new Scanner(System.in);
         purchaseAction = purchaseChoice.nextLine();
+        //if (Integer.parseInt(purchaseAction) )
         return purchaseAction;
     }
 

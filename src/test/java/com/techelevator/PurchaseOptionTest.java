@@ -27,9 +27,8 @@ public class PurchaseOptionTest {
     @Test
     public void calculate_correct_change(){
         purchaseObject.setCurrentBalance(1.15);
-        Change change = new Change(4, 1, 1 );
-        int[] coins = {change.getQuarter(), change.getDime(), change.getNickel()};
-        int[] outputCoins = {purchaseObject.calculateChange().getQuarter(), purchaseObject.calculateChange().getNickel(), purchaseObject.calculateChange().getDime() };
+        int[] coins = {4, 1, 1};
+        int[] outputCoins = {purchaseObject.getCustomerChange().getQuarter(), purchaseObject.getCustomerChange().getNickel(), purchaseObject.getCustomerChange().getDime() };
         Assert.assertArrayEquals(coins, outputCoins); //assert
     }
 
