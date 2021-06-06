@@ -56,6 +56,13 @@ public class VendingMachine {
         return itemSelection;
     }
 
+    public boolean checkForValidOptions(){
+        while (!getOption().equals("1") || !getOption().equals("2") || !getOption().equals("3")){
+            return false;
+        }
+        return true;
+    }
+
     public String getPurchaseAction() {
         return purchaseAction;
     }

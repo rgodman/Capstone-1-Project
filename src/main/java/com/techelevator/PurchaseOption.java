@@ -31,6 +31,8 @@ public class PurchaseOption extends Option {
         this.amountFed = amountFed;
     }
 
+    public void setCurrentBalance(double currentBalance){this.currentBalance = currentBalance; }
+
 
     public double getBalance() {
         return currentBalance;
@@ -44,8 +46,20 @@ public class PurchaseOption extends Option {
     public double askForMoney(){
         //needs to check for null or STRINGS.
         System.out.println("Please enter your money, in whole dollars.");
-        Scanner userInput = new Scanner(System.in);
-        amountFed = Double.parseDouble(userInput.nextLine());
+        try {
+            Scanner userInput = new Scanner(System.in);
+            amountFed = Double.parseDouble(userInput.nextLine());
+            if (amountFed < 0) {
+                System.out.println("You cannot enter a negative amount.");
+                System.out.println("Amount entered is 0. Please enter more.");
+                amountFed = 0.00;
+            }
+
+        } catch (NumberFormatException e){
+            amountFed = 0.00;
+            System.out.println("You did not enter a number. Please try again.");
+
+        }
         return amountFed;
     }
 
@@ -102,15 +116,20 @@ public class PurchaseOption extends Option {
         int quarters = 0;
         int dimes = 0;
         int nickels = 0;
-        quarters = (int) Math.floor(currentBalance / 0.25);
-        currentBalance -= quarters * 0.25;
+        if (currentBalance >= 0.25){
+            quarters = (int) Math.floor(currentBalance / 0.25);
+            currentBalance -= quarters * 0.25;
+        }
 
-        dimes = (int) Math.floor(currentBalance / 0.10);
-        currentBalance -= dimes * 0.10;
+        if (currentBalance >= 0.10) {
+            dimes = (int) Math.floor(currentBalance / 0.10);
+            currentBalance -= dimes * 0.10;
+        }
 
-        nickels = (int) Math.floor(currentBalance / 0.05);
-        currentBalance -= nickels * 0.05;
-
+        if (currentBalance == 0.05) {
+            nickels = (int) Math.floor(currentBalance / 0.05);
+            currentBalance -= nickels * 0.05;
+        }
         Change customerChange = new Change(quarters, dimes, nickels);
         System.out.println("Here's your change: " + customerChange.getQuarter() + " quarters, " + customerChange.getDime() + " dimes, " + customerChange.getNickel() + " nickels.");
         return customerChange;

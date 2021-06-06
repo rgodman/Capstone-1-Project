@@ -9,13 +9,15 @@ import java.util.Scanner;
 
 public class Inventory {
     private  Map<String, VendingMachineItem> inventory = new HashMap<>();
-
-
     public Map<String, VendingMachineItem> getInventory() {
         return this.inventory;
     }
 
     //try createInventory here
+    public Map createInventory(File fileName){
+
+        return inventory;
+    }
 
         public Map restockInventory () {
             //resets each item in numberOfItem map to 5.
