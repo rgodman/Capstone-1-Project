@@ -116,15 +116,15 @@ public class PurchaseOption extends Option {
         int quarters = 0;
         int dimes = 0;
         int nickels = 0;
+            currentBalance = currentBalance * 100;
+            quarters = (int) Math.floor(currentBalance / 25);
+            currentBalance -= (quarters * 25);
 
-            quarters = (int) Math.floor(currentBalance / 0.25);
-            currentBalance -= quarters * 0.25;
+            dimes = (int) Math.floor(currentBalance / 10);
+            currentBalance -= (dimes * 10);
 
-            dimes = (int) Math.floor(currentBalance / 0.10);
-            currentBalance -= dimes * 0.10;
-
-            nickels = (int) Math.floor(currentBalance / 0.05);
-            currentBalance -= nickels * 0.05;
+            nickels = (int) Math.floor(currentBalance / 5);
+            currentBalance -= (nickels * 5);
 
         Change customerChange = new Change(quarters, dimes, nickels);
         System.out.println("Here's your change: " + customerChange.getQuarter() + " quarters, " + customerChange.getDime() + " dimes, " + customerChange.getNickel() + " nickels.");
