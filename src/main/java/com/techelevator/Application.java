@@ -10,31 +10,11 @@ public class Application {
 
     public static void main(String[] args) {
         //create new inventory. call method to restock inventory so there are 5 of each.
-        Inventory vMachine = new Inventory();
+        Inventory itemsForSale = new Inventory();
         VendingMachine menu = new VendingMachine();
-        Map<String, VendingMachineItem> newInventory = vMachine.getInventory();
-        File vendingItems = new File("src/main/java/com/techelevator/view/vendingmachine.csv");
-        try (Scanner fileInput = new Scanner(vendingItems)) {
-            while (fileInput.hasNextLine()) {
-                String[] itemDetails = fileInput.nextLine().split("\\|");
-                if (itemDetails[3].equals("Candy")) {
-                    newInventory.put(itemDetails[0], new Candy(itemDetails[1], Double.parseDouble(itemDetails[2])));
-                }
-                if (itemDetails[3].equals("Chip")) {
-                    newInventory.put(itemDetails[0], new Chip(itemDetails[1], Double.parseDouble(itemDetails[2])));
-                }
-                if (itemDetails[3].equals("Drink")) {
-                    newInventory.put(itemDetails[0], new Drink(itemDetails[1], Double.parseDouble(itemDetails[2])));
-                }
-                if (itemDetails[3].equals("Gum")) {
-                    newInventory.put(itemDetails[0], new Gum(itemDetails[1], Double.parseDouble(itemDetails[2])));
-                }
-            }
-            vMachine.restockInventory();
-
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+        Map<String, VendingMachineItem> newInventory = itemsForSale.getInventory();
+        itemsForSale.createInventory("src/main/java/com/techelevator/view/vendingmachine.csv");
+        itemsForSale.restockInventory();
 
         System.out.println("*******************************");
         System.out.println("Welcome to the Vendo-Matic 800!");
@@ -101,7 +81,7 @@ public class Application {
                         break;
                     }
                     menu.getChoiceTwo().selectProduct(itemToPurchase);
-                    vMachine.updateInventory(itemToPurchase);
+                    itemsForSale.updateInventory(itemToPurchase);
                     menu.getChoiceTwo().printBalance();
                     menu.setPurchaseAction(0);
                     menu.displayPurchaseMenu();
@@ -114,8 +94,7 @@ public class Application {
                 menu.getChoiceTwo().printBalance();
                 menu.displayMainMenu();
                 menu.setPurchaseAction(0);
-                System.out.println(menu.getOption());
-                System.out.println(menu.getPurchaseAction());
+
             }
 
             while (menu.getOption() == 3) {
